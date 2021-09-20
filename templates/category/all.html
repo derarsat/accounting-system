@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="row">
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Add New Category
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'category.all' %}">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-success">Add Category</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    All Categories
+                </div>
+                <div class="card-body">
+                    <table class="table table-responsive-md table-striped">
+                        <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Category Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for category in categories %}
+                            <tr>
+                                <td>{{ category.name }}</td>
+                                <td>{{ category.desc }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if categories.has_other_pages %}
+                        <ul class="pagination mx-auto">
+                            {% if categories.has_previous %}
+                                <li class="page-item"><a class="page-link"
+                                                         href="?page={{ categories.previous_page_number }}">&laquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="disabled page-item"><a class="page-link">&laquo;</a></li>
+                            {% endif %}
+                            {% for i in categories.paginator.page_range %}
+                                {% if categories.number == i %}
+                                    <li class="active page-item"><a class="page-link">{{ i }} <span
+                                            class="sr-only">(current)</span></a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if categories.has_next %}
+                                <li class="page-item"><a class="page-link"
+                                                         href="?page={{ categories.next_page_number }}">&raquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="disabled page-item"><a class="page-link">&raquo;</a></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
