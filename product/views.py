@@ -4,7 +4,7 @@ from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from django.shortcuts import render, redirect
 from product.forms import CategoryForm, SellerForm, ProductForm
 from product.models import Category, Seller, Product
-from untitled.settings import LOGIN_URL
+from turbo.settings import LOGIN_URL
 
 
 @login_required(login_url=LOGIN_URL)
