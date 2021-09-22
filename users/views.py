@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout, login
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 
@@ -19,7 +18,7 @@ def login_user(request):
             return render(request, "users/login.html")
         else:
             login(request, user)
-            if request.GET.get("next"):
+            if request.GET.get("next") is not None:
                 return redirect(request.GET.get('next'))
             else:
                 return redirect("home")
