@@ -47,7 +47,16 @@ def all_sellers(request):
             Seller.objects.get(pk=seller_id).delete()
             messages.add_message(request, messages.WARNING, 'Seller deleted successfully.')
             return redirect("seller.all")
-
+        elif method == "put":
+            seller_id = request.POST.get("seller_id")
+            seller_name = request.POST.get("name")
+            seller_phone = request.POST.get("phone")
+            seller = Seller.objects.get(pk=seller_id)
+            seller.name = seller_name
+            seller.phone = seller_phone
+            seller.save()
+            messages.add_message(request, messages.SUCCESS, 'Seller updated successfully.')
+            return redirect("seller.all")
     # Get method
     else:
         form = SellerForm()

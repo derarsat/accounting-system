@@ -137,12 +137,16 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form>
+                <form method="post" action="{% url 'seller.all' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="method" value="put">
+                    <input type="hidden" name="seller_id" id="seller_id_to_edit">
+
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="seller_name_edit">Seller Name</label>
                             <input type="text" class="form-control" id="seller_name_edit"
-                                   placeholder="Enter seller name">
+                                   placeholder="Enter seller name" name="name">
 
                         </div>
                         <div class="form-group">
@@ -166,11 +170,13 @@
             $(".delete-btn").click(function () {
                 var seller_id = $(this).attr("data-id");
                 $("#seller_id_to_delete").val(seller_id)
-            })
+            });
 
             $(".edit-btn").click(function () {
                 var seller_name = $(this).attr("data-name");
                 var seller_phone = $(this).attr("data-phone");
+                var seller_id = $(this).attr("data-id");
+                $("#seller_id_to_edit").val(seller_id)
                 $("#seller_name_edit").val(seller_name);
                 $("#seller_phone_edit").val(seller_phone);
             })
