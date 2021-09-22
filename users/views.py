@@ -19,7 +19,10 @@ def login_user(request):
             return render(request, "users/login.html")
         else:
             login(request, user)
-            return redirect("home")
+            if request.GET.get("next"):
+                return redirect(request.GET.get('next'))
+            else:
+                return redirect("home")
     else:
         return render(request, "users/login.html")
 
