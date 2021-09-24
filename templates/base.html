@@ -51,7 +51,9 @@
                         <a class="nav-link" href="#">Quantity Types</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Currencies</a>
+                        <a class="nav-link {% if request.resolver_match.view_name == 'currency.all' %}active{% endif %}"
+                           href="{% url 'currency.all' %}">Currencies</a>
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Materials</a>

@@ -18,6 +18,7 @@ def login_user(request):
             return render(request, "users/login.html")
         else:
             login(request, user)
+            print(request.GET.get("next"))
             if request.GET.get("next") is not None:
                 return redirect(request.GET.get('next'))
             else:
