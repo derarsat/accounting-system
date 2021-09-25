@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <div class="row">
+        <div class="col-3">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchproductmodal">
+                Add product to invoice
+            </button>
+        </div>
+    </div>
+    {#    <table id="main" class="display">#}
+    {#        <thead>#}
+    {#        <tr>#}
+    {#            <th>Product</th>#}
+    {#            <th>Quantity</th>#}
+    {#            <th>Price</th>#}
+    {#            <th>Total</th>#}
+    {#        </tr>#}
+    {#        </thead>#}
+    {#        <tbody>#}
+    {#        <tr>#}
+    {#          #}
+    {#        </tr>#}
+    {##}
+    {#        </tbody>#}
+    {#    </table>#}
+
+
+    {#    Search product modal#}
+    <div class="modal fade" id="searchproductmodal" tabindex="-1" role="dialog"
+         aria-labelledby="searchproductmodalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group relative">
+                        <input id="search-product-name" type="text" autofocus class="form-control"
+                               placeholder="Search by name, material, barcode, identifier ...">
+
+                        <div id="search-result" class="bg-light"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#    end Search product modal#}
+
+    <script>
+        $(document).ready(function () {
+            $('#main').DataTable(
+                {
+                    paging: false,
+                    searching: false
+                }
+            );
+            {#            Search#}
+            $("#search-product-name").keyup(function () {
+                const query = $(this).val();
+                $("#search-result").html("");
+                $.ajax(
+                    {
+                        type: "POST",
+                        url: "{% url 'product.autocomplete' %}",
+                        data: {query: query, csrfmiddlewaretoken: '{{ csrf_token }}'},
+                        success: function (response) {
+                            var data = JSON.parse(response.result);
+                            var html;
+                            for (var i = 0; i < data.length; i++) {
+                                html = "<div style='padding:5px 10px;border-bottom:1px solid #eee'>";
+                                html += data[i]["fields"]["name"];
+                                html += "<div>";
+                                document.getElementById("search-result").innerHTML += html;
+                            }
+                        }
+                    }
+                )
+            })
+        });
+    </script>
+{% endblock %}

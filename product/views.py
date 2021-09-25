@@ -1,9 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
+from django.db.models import Q
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from product.forms import CategoryForm, SellerForm, ProductForm, CurrencyForm
-from product.models import Category, Seller, Product, Currency
+from product.forms import CategoryForm, SellerForm, ProductForm, CurrencyForm, MaterialForm, QuantityTypeForm
+from product.models import Category, Seller, Product, Currency, Material, QuantityType
 from turbo.settings import LOGIN_URL
 
 
@@ -44,7 +47,7 @@ def all_categories(request):
         form = CategoryForm()
     categories = Category.objects.all()
     page = request.GET.get('page', 1)
-    paginator = Paginator(categories, 3)
+    paginator = Paginator(categories, 15)
     try:
         categories = paginator.page(page)
     except PageNotAnInteger:
@@ -92,7 +95,7 @@ def all_sellers(request):
         form = SellerForm()
     sellers = Seller.objects.all()
     page = request.GET.get('page', 1)
-    paginator = Paginator(sellers, 3)
+    paginator = Paginator(sellers, 15)
     try:
         sellers = paginator.page(page)
     except PageNotAnInteger:
@@ -101,6 +104,52 @@ def all_sellers(request):
         sellers = paginator.page(paginator.num_pages)
 
     return render(request, 'seller/all.html', {'sellers': sellers, "form": form})
+
+
+@login_required(login_url=LOGIN_URL)
+def all_quantity_types(request):
+    if request.method == 'POST':
+        method = request.POST.get("method").lower()
+        if method == "post":
+            form = QuantityTypeForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.add_message(request, messages.SUCCESS, 'Quantity Type added successfully.')
+                return redirect("quantity_type.all")
+        elif method == "delete":
+            quantity_type_id = request.POST.get("quantity_type_id")
+            QuantityType.objects.get(pk=quantity_type_id).delete()
+            messages.add_message(request, messages.WARNING, 'Quantity Type deleted successfully.')
+            return redirect("quantity_type.all")
+        elif method == "put":
+            quantity_type_id = request.POST.get("quantity_type_id")
+            quantity_type_name = request.POST.get("name")
+            quantity_type_value = request.POST.get("value")
+            quantity_type_exists = QuantityType.objects.filter(name=quantity_type_name).exclude(pk=quantity_type_id)
+            if not quantity_type_exists:
+                quantity_type = QuantityType.objects.get(pk=quantity_type_id)
+                quantity_type.name = quantity_type_name
+                quantity_type.value = quantity_type_value
+                quantity_type.save()
+                messages.add_message(request, messages.SUCCESS, 'Quantity Type updated successfully.')
+            else:
+                messages.add_message(request, messages.WARNING, 'Quantity Type data exists')
+
+            return redirect("quantity_type.all")
+            # Get method
+    else:
+        form = QuantityTypeForm()
+        quantity_types = QuantityType.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(quantity_types, 15)
+    try:
+        quantity_types = paginator.page(page)
+    except PageNotAnInteger:
+        quantity_types = paginator.page(1)
+    except EmptyPage:
+        quantity_types = paginator.page(paginator.num_pages)
+
+    return render(request, 'quantity_type/all.html', {'quantity_types': quantity_types, "form": form})
 
 
 # Currencies
@@ -142,7 +191,7 @@ def all_currencies(request):
         form = CurrencyForm()
     currencies = Currency.objects.all()
     page = request.GET.get('page', 1)
-    paginator = Paginator(currencies, 3)
+    paginator = Paginator(currencies, 15)
     try:
         currencies = paginator.page(page)
     except PageNotAnInteger:
@@ -151,6 +200,54 @@ def all_currencies(request):
         currencies = paginator.page(paginator.num_pages)
 
     return render(request, 'currency/all.html', {'currencies': currencies, "form": form})
+
+
+# Materials
+@login_required(login_url=LOGIN_URL)
+def all_materials(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        method = request.POST.get("method").lower()
+        if method == "post":
+            form = MaterialForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.add_message(request, messages.SUCCESS, 'Material added successfully.')
+                return redirect("material.all")
+        elif method == "delete":
+            material_id = request.POST.get("material_id")
+            Material.objects.get(pk=material_id).delete()
+            messages.add_message(request, messages.WARNING, 'Material deleted successfully.')
+            return redirect("material.all")
+        elif method == "put":
+            material_id = request.POST.get("material_id")
+            material_name = request.POST.get("name")
+            material_desc = request.POST.get("desc")
+            material_exists = Material.objects.filter(name=material_name).exclude(pk=material_id)
+            if not material_exists:
+                material = Material.objects.get(pk=material_id)
+                material.name = material_name
+                material.desc = material_desc
+                material.save()
+                messages.add_message(request, messages.SUCCESS, 'Material updated successfully.')
+            else:
+                messages.add_message(request, messages.WARNING, 'Material data exists')
+
+            return redirect("material.all")
+            # Get method
+    else:
+        form = MaterialForm()
+    materials = Material.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(materials, 15)
+    try:
+        materials = paginator.page(page)
+    except PageNotAnInteger:
+        materials = paginator.page(1)
+    except EmptyPage:
+        materials = paginator.page(paginator.num_pages)
+
+    return render(request, 'material/all.html', {'materials': materials, "form": form})
 
 
 @login_required(login_url=LOGIN_URL)
@@ -170,7 +267,7 @@ def add_product(request):
 def all_products(request):
     products = Product.objects.all()
     page = request.GET.get('page', 1)
-    paginator = Paginator(products, 3)
+    paginator = Paginator(products, 15)
     try:
         products = paginator.page(page)
     except PageNotAnInteger:
@@ -178,3 +275,25 @@ def all_products(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
     return render(request, "product/all.html", {"products": products})
+
+
+@login_required(login_url=LOGIN_URL)
+def add_invoice(request):
+    if request.method == "POST":
+        pass
+    else:
+        return render(request, "invoice/add.html")
+
+
+def product_autocomplete(request):
+    query = request.POST.get("query")
+    result = Product.objects.filter(
+        Q(name__contains=query) |
+        Q(material__name__contains=query) |
+        Q(identifier__contains=query) |
+        Q(barcode__contains=query)
+    ).distinct()
+
+    result = serializers.serialize("json", result)
+    result = {"result": result}
+    return JsonResponse(result)

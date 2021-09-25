@@ -1,4 +1,6 @@
 from django.db import models
+import django_filters
+from django.db.models import Q
 
 
 class Material(models.Model):
@@ -61,3 +63,17 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+# class ProductFilter(django_filters.FilterSet):
+#     q = django_filters.CharFilter(method='my_custom_filter', label="Search")
+#
+#     class Meta:
+#         model = Product
+#         fields = ['q']
+#
+#     def my_custom_filter(self, queryset, name, value):
+#         return Product.objects.filter(
+#             Q(loc__icontains=value) | Q(loc_mansioned__icontains=value) | Q(loc_country__icontains=value) | Q(
+#                 loc_modern__icontains=value)
+#         )

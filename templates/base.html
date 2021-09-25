@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script
-            src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-            integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
-            crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+    ></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            crossorigin="anonymous"></script>
+    ></script>
 
     <title>ALMOTTAHIDA</title>
     <style>
@@ -48,25 +46,26 @@
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Quantity Types</a>
+                        <a class="nav-link {% if request.resolver_match.view_name == 'quantity_type.all' %}active{% endif %}"
+                           href="{% url 'quantity_type.all' %}">Quantity Types</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.view_name == 'currency.all' %}active{% endif %}"
                            href="{% url 'currency.all' %}">Currencies</a>
-
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Materials</a>
+                        <a class="nav-link {% if request.resolver_match.view_name == 'material.all' %}active{% endif %}"
+                           href="{% url 'material.all' %}">Materials</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {% if "product" in request.resolver_match.view_name %}active{% endif %}"
+                        <a class="nav-link dropdown-toggle {% if "invoice" in request.resolver_match.view_name %}active{% endif %}"
                            href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Invoices
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{% url 'product.all' %}">All Invoices</a>
-                            <a class="dropdown-item" href="{% url 'product.add' %}">Add Invoice</a>
+                            <a class="dropdown-item" href="{% url 'invoice.add' %}">Add Invoice</a>
                         </div>
                     </li>
                     <li class="nav-item">
