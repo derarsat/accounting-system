@@ -1,91 +1,238 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-    <div class="row">
-        <div class="col-3">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchproductmodal">
-                Add product to invoice
-            </button>
-        </div>
-    </div>
-    {#    <table id="main" class="display">#}
-    {#        <thead>#}
-    {#        <tr>#}
-    {#            <th>Product</th>#}
-    {#            <th>Quantity</th>#}
-    {#            <th>Price</th>#}
-    {#            <th>Total</th>#}
-    {#        </tr>#}
-    {#        </thead>#}
-    {#        <tbody>#}
-    {#        <tr>#}
-    {#          #}
-    {#        </tr>#}
-    {##}
-    {#        </tbody>#}
-    {#    </table>#}
+    <style>
+        .s-r {
+            cursor: pointer;
+        }
+
+        .s-r:hover {
+            background: #ccc;
+        }
+    </style>
+    <div id="app">
+        <h2 class="mb-4">Add new invoice</h2>
+        <v-app>
+            <div class="row">
+                <div class="col-12">
+                    <v-data-table
+                            :headers="headers"
+                            :items="activeProducts"
+                            class="elevation-2"
+                    >
+                        <template v-slot:top>
+                            <v-toolbar
+                                    flat
+                            >
+                                <v-toolbar-title>New Invoice</v-toolbar-title>
+                                <v-divider
+                                        class="mx-4"
+                                        inset
+                                        vertical
+                                ></v-divider>
+                                <v-spacer></v-spacer>
+                                <v-dialog
+                                        v-model="addDialog"
+                                        max-width="500px"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                                color="primary"
+                                                dark
+                                                class="mb-2"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                        >
+                                            New Product
+                                        </v-btn>
+                                    </template>
+                                    <v-card>
+                                        <v-card-title>
+                                            <span class="text-h5">Search Products</span>
+                                        </v-card-title>
+
+                                        <v-card-text>
+                                            <v-autocomplete
+                                                    solo
+                                                    label="Search Product"
+                                                    :search-input.sync="search"
+                                                    :items="results"
+                                                    cache-items
+                                                    item-value="fields"
+                                                    item-text="fields.name"
+                                                    v-model="lastKnownProduct"
+                                            >
+                                            </v-autocomplete>
 
 
-    {#    Search product modal#}
-    <div class="modal fade" id="searchproductmodal" tabindex="-1" role="dialog"
-         aria-labelledby="searchproductmodalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Add Product</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group relative">
-                        <input id="search-product-name" type="text" autofocus class="form-control"
-                               placeholder="Search by name, material, barcode, identifier ...">
+                                        </v-card-text>
 
-                        <div id="search-result" class="bg-light"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">Confirm</button>
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn
+                                                    color="blue darken-1"
+                                                    text
+                                            >
+                                                Cancel
+                                            </v-btn>
+                                            <v-btn
+                                                    color="blue darken-1"
+                                                    text
+                                            >
+                                                Save
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
+                            </v-toolbar>
+                        </template>
+                        <template v-slot:item.quantity="props">
+                            <v-edit-dialog
+                                    :return-value.sync="props.item.quantity"
+                                    @save="save(props.item,props.item.quantity)"
+                            >
+                                [[props.item.quantity]]
+                                <template v-slot:input>
+                                    <v-text-field
+                                            v-model="props.item.quantity"
+                                            label="Edit"
+                                            single-line
+                                    ></v-text-field>
+                                </template>
+                            </v-edit-dialog>
+                        </template>
+                    </v-data-table>
+                    <v-snackbar
+                            v-model="snack"
+                            :timeout="3000"
+                            :color="snackColor"
+                    >
+                        [[snackText]]
+
+                        <template v-slot:action="{ attrs }">
+                            <v-btn
+                                    v-bind="attrs"
+                                    text
+                                    @click="snack = false"
+                            >
+                                Close
+                            </v-btn>
+                        </template>
+                    </v-snackbar>
                 </div>
             </div>
-        </div>
+        </v-app>
     </div>
-    {#    end Search product modal#}
-
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#main').DataTable(
-                {
-                    paging: false,
-                    searching: false
+        var app = new Vue({
+            delimiters: ["[[", "]]"],
+            watch: {
+                search: function () {
+                    this.searchProducts()
+                },
+                lastKnownProduct: function (old) {
+                    this.addProduct(old)
+                    this.addDialog = false
                 }
-            );
-            {#            Search#}
-            $("#search-product-name").keyup(function () {
-                const query = $(this).val();
-                $("#search-result").html("");
-                $.ajax(
+            },
+            el: '#app',
+            vuetify: new Vuetify(),
+            data: {
+                addDialog: true,
+                lastKnownProduct: "",
+                snack: false,
+                snackColor: '',
+                snackText: '',
+                search: "",
+                results: [
                     {
-                        type: "POST",
-                        url: "{% url 'product.autocomplete' %}",
-                        data: {query: query, csrfmiddlewaretoken: '{{ csrf_token }}'},
-                        success: function (response) {
-                            var data = JSON.parse(response.result);
-                            var html;
-                            for (var i = 0; i < data.length; i++) {
-                                html = "<div style='padding:5px 10px;border-bottom:1px solid #eee'>";
-                                html += data[i]["fields"]["name"];
-                                html += "<div>";
-                                document.getElementById("search-result").innerHTML += html;
-                            }
-                        }
+                        fields: {name: "derar"}
                     }
-                )
-            })
-        });
+                ],
+                activeProducts: [],
+                headers: [
+                    {
+                        text: 'Product name',
+                        sortable: false,
+                        value: 'name',
+                    },
+                    {
+                        text: 'Quantity',
+                        sortable: true,
+                        value: 'quantity',
+                    },
+                    {
+                        text: 'One Price Price',
+                        sortable: true,
+                        value: 'price',
+                    },
+                    {
+                        text: 'Total',
+                        sortable: true,
+                        value: 'total',
+                    },
+
+                ],
+            },
+            methods: {
+                addProduct(p, w) {
+                    p["quantity"] = 1
+                    p["total"] = p.price
+                    this.activeProducts.push(p)
+                },
+                searchProducts() {
+                    try {
+                        this.results.length = 0
+
+                        if (this.search.length < 3) {
+                            return
+                        }
+                        var bodyFormData = new FormData();
+                        bodyFormData.append('query', this.search);
+                        axios({
+                            method: "post",
+                            url: "{% url 'product.autocomplete' %}",
+                            data: bodyFormData,
+                            headers: {"X-CSRFToken": '{{csrf_token}}'}
+                        }).then((r) => {
+                            var r = JSON.parse(r.data.result)
+                            for (let i = 0; i < r.length; i++) {
+                                r[i]["fields"]["pk"] = r[i]["pk"]
+                            }
+                            this.results = r
+                        })
+                    } catch (e) {
+
+                    }
+                },
+                save(item, newquan) {
+                    console.log(item)
+                    objIndex = this.activeProducts.findIndex((obj => obj.pk == item.pk));
+                    item.total = item.price * newquan
+                    this.$set(this.activeProducts, objIndex, item)
+
+                    this.snack = true
+                    this.snackColor = 'success'
+                    this.snackText = 'Quantity updated successfully'
+                },
+                cancel() {
+                    this.snack = true
+                    this.snackColor = 'error'
+                    this.snackText = 'Canceled'
+                },
+                open() {
+                    this.snack = true
+                    this.snackColor = 'info'
+                    this.snackText = 'Dialog opened'
+                },
+                close() {
+                    console.log('Dialog closed')
+                },
+            }
+        })
     </script>
 {% endblock %}

@@ -148,7 +148,6 @@ def all_quantity_types(request):
         quantity_types = paginator.page(1)
     except EmptyPage:
         quantity_types = paginator.page(paginator.num_pages)
-
     return render(request, 'quantity_type/all.html', {'quantity_types': quantity_types, "form": form})
 
 
@@ -287,13 +286,13 @@ def add_invoice(request):
 
 def product_autocomplete(request):
     query = request.POST.get("query")
-    result = Product.objects.filter(
-        Q(name__contains=query) |
-        Q(material__name__contains=query) |
-        Q(identifier__contains=query) |
-        Q(barcode__contains=query)
-    ).distinct()
-
-    result = serializers.serialize("json", result)
-    result = {"result": result}
-    return JsonResponse(result)
+    if len(query) > 2:
+        result = Product.objects.filter(
+            Q(name__contains=query) |
+            Q(material__name__contains=query) |
+            Q(identifier__contains=query) |
+            Q(barcode__contains=query)
+        ).distinct()
+        result = serializers.serialize("json", result)
+        result = {"result": result}
+        return JsonResponse(result)
