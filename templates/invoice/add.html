@@ -13,120 +13,237 @@
     <div id="app">
         <h2 class="mb-4">Add new invoice</h2>
         <v-app>
-            <div class="row">
-                <div class="col-12">
-                    <v-data-table
-                            :headers="headers"
-                            :items="activeProducts"
-                            class="elevation-2"
-                    >
-                        <template v-slot:top>
-                            <v-toolbar
-                                    flat
+            <div>
+                <v-data-table
+                        :headers="headers"
+                        :items="activeProducts"
+                        class="elevation-2"
+                >
+                    <template v-slot:top>
+                        <v-toolbar
+                                flat
+                        >
+                            <v-toolbar-title>New Invoice</v-toolbar-title>
+                            <v-divider
+                                    class="mx-4"
+                                    inset
+                                    vertical
+                            ></v-divider>
+                            <v-spacer></v-spacer>
+                            <v-dialog
+                                    v-model="addDialog"
+                                    max-width="500px"
                             >
-                                <v-toolbar-title>New Invoice</v-toolbar-title>
-                                <v-divider
-                                        class="mx-4"
-                                        inset
-                                        vertical
-                                ></v-divider>
-                                <v-spacer></v-spacer>
-                                <v-dialog
-                                        v-model="addDialog"
-                                        max-width="500px"
-                                >
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn
-                                                color="primary"
-                                                dark
-                                                class="mb-2"
-                                                v-bind="attrs"
-                                                v-on="on"
-                                        >
-                                            New Product
-                                        </v-btn>
-                                    </template>
-                                    <v-card>
-                                        <v-card-title>
-                                            <span class="text-h5">Search Products</span>
-                                        </v-card-title>
-
-                                        <v-card-text>
-                                            <v-autocomplete
-                                                    solo
-                                                    label="Search Product"
-                                                    :search-input.sync="search"
-                                                    :items="results"
-                                                    cache-items
-                                                    item-value="fields"
-                                                    item-text="fields.name"
-                                                    v-model="lastKnownProduct"
-                                            >
-                                            </v-autocomplete>
-
-
-                                        </v-card-text>
-
-                                        <v-card-actions>
-                                            <v-spacer></v-spacer>
-                                            <v-btn
-                                                    color="blue darken-1"
-                                                    text
-                                            >
-                                                Cancel
-                                            </v-btn>
-                                            <v-btn
-                                                    color="blue darken-1"
-                                                    text
-                                            >
-                                                Save
-                                            </v-btn>
-                                        </v-card-actions>
-                                    </v-card>
-                                </v-dialog>
-                            </v-toolbar>
-                        </template>
-                        <template v-slot:item.quantity="props">
-                            <v-edit-dialog
-                                    :return-value.sync="props.item.quantity"
-                                    @save="save(props.item,props.item.quantity)"
-                            >
-                                [[props.item.quantity]]
-                                <template v-slot:input>
-                                    <v-text-field
-                                            v-model="props.item.quantity"
-                                            label="Edit"
-                                            single-line
-                                    ></v-text-field>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                            color="primary"
+                                            dark
+                                            class="mb-2"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                    >
+                                        New Product
+                                    </v-btn>
                                 </template>
-                            </v-edit-dialog>
-                        </template>
-                    </v-data-table>
-                    <v-snackbar
-                            v-model="snack"
-                            :timeout="3000"
-                            :color="snackColor"
-                    >
-                        [[snackText]]
 
-                        <template v-slot:action="{ attrs }">
-                            <v-btn
-                                    v-bind="attrs"
-                                    text
-                                    @click="snack = false"
-                            >
-                                Close
-                            </v-btn>
-                        </template>
-                    </v-snackbar>
-                </div>
+                                <v-card>
+                                    <v-card-title>
+                                        <span class="text-h5">Search Products</span>
+                                    </v-card-title>
+
+                                    <v-card-text>
+                                        <v-autocomplete
+                                                solo
+                                                label="Search Product"
+                                                :search-input.sync="search"
+                                                :items="results"
+                                                cache-items
+                                                item-value="fields"
+                                                item-text="fields.name"
+                                                v-model="lastKnownProduct"
+                                        >
+                                        </v-autocomplete>
+
+
+                                    </v-card-text>
+
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                                color="blue darken-1"
+                                                text
+                                                @click="addDialog=false"
+                                        >
+                                            Cancel
+                                        </v-btn>
+                                        <v-btn
+                                                color="blue darken-1"
+                                                text
+                                        >
+                                            Save
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        </v-toolbar>
+                    </template>
+                    <template v-slot:item.quantity="props">
+                        <v-edit-dialog
+                                :return-value.sync="props.item.quantity"
+                                @save="save(props.item,props.item.quantity)"
+                        >
+                            [[props.item.quantity]]
+                            <template v-slot:input>
+                                <v-text-field
+                                        v-model="props.item.quantity"
+                                        label="Edit"
+                                        single-line
+                                ></v-text-field>
+                            </template>
+                        </v-edit-dialog>
+                    </template>
+                </v-data-table>
+                <template>
+                    <v-row justify="center">
+                        <v-dialog
+                                v-model="dialog"
+                                transition="dialog-bottom-transition"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                        color="red"
+                                        dark
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        x-large
+                                >
+                                    Save Invoice
+                                    <v-icon
+                                            right
+                                            dark
+                                    >
+                                        mdi-cloud-upload
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <v-card>
+                                <v-toolbar
+                                        dark
+                                        color="primary"
+                                >
+                                    <v-btn
+                                            icon
+                                            dark
+                                            @click="dialog = false"
+                                    >
+                                        <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                    <v-toolbar-title>Confirm Adding Invoice</v-toolbar-title>
+                                    <v-spacer></v-spacer>
+                                    <v-toolbar-items>
+                                        <v-btn
+                                                dark
+
+                                                text
+                                                @click="addInvoice"
+                                        >
+                                            Confirm & Save
+                                        </v-btn>
+                                    </v-toolbar-items>
+                                </v-toolbar>
+                                <v-container fluid>
+                                    <v-row class="mt-5 align-center">
+                                        <v-col cols="2">
+                                            <v-combobox
+                                                    v-model="activeCurrency"
+                                                    :items="currencies"
+                                                    label="Currency"
+                                                    item-text="fields.name"
+                                                    outlined
+                                            ></v-combobox>
+                                        </v-col>
+                                        <v-col cols="2">
+                                            <v-combobox
+                                                    v-model="activeSeller"
+                                                    :items="sellers"
+                                                    outlined
+                                                    label="Seller"
+                                                    item-text="fields.name"
+                                            ></v-combobox>
+                                        </v-col>
+                                        <v-col cols="2">
+                                            <v-text-field
+                                                    v-model="discount"
+                                                    type="number"
+                                                    label="Discount amount"
+                                                    outlined
+                                                    :suffix="activeCurrency.fields?.name"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
+
+                                        <v-col cols="2">
+                                            <v-text-field
+                                                    v-model="payed"
+                                                    type="number"
+                                                    label="Client Payed"
+                                                    outlined
+                                                    :suffix="activeCurrency.fields?.name"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="2">
+                                            <v-text-field
+                                                    v-model="dept"
+                                                    type="number"
+                                                    label="Remaining Dept"
+                                                    outlined
+                                                    disabled
+                                                    :suffix="activeCurrency.fields?.name"
+                                            >
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="2">
+                                            <v-text-field
+                                                    type="number"
+                                                    label="Amount To Be Taken From Client"
+                                                    outlined
+                                                    disabled
+                                                    v-model="total"
+                                                    :suffix="activeCurrency.fields?.name"
+
+                                            >
+                                            </v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                </v-container>
+                            </v-card>
+                        </v-dialog>
+                    </v-row>
+                </template>
+
+                <v-snackbar
+                        v-model="snack"
+                        :timeout="3000"
+                        :color="snackColor"
+                >
+                    [[snackText]]
+
+                    <template v-slot:action="{ attrs }">
+                        <v-btn
+                                v-bind="attrs"
+                                text
+                                @click="snack = false"
+                        >
+                            Close
+                        </v-btn>
+                    </template>
+                </v-snackbar>
             </div>
+            [[ finalData ]]
         </v-app>
     </div>
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
         var app = new Vue({
             delimiters: ["[[", "]]"],
@@ -137,12 +254,34 @@
                 lastKnownProduct: function (old) {
                     this.addProduct(old)
                     this.addDialog = false
-                }
+                },
+                activeProducts: function (old) {
+                    this.calc()
+                },
+                discount: function (old) {
+                    this.calc()
+                },
+                activeCurrency: function (old) {
+                    this.calc()
+                },
+                payed: function (old) {
+                    this.calc()
+                },
             },
             el: '#app',
             vuetify: new Vuetify(),
             data: {
-                addDialog: true,
+                finalData: {},
+                total: 0,
+                discount: 0,
+                dept: 0,
+                payed: 0,
+                currencies: [],
+                activeCurrency: "",
+                sellers: [],
+                activeSeller: "",
+                dialog: true,
+                addDialog: false,
                 lastKnownProduct: "",
                 snack: false,
                 snackColor: '',
@@ -166,6 +305,11 @@
                         value: 'quantity',
                     },
                     {
+                        text: 'Quantity Type',
+                        sortable: true,
+                        value: 'quantity',
+                    },
+                    {
                         text: 'One Price Price',
                         sortable: true,
                         value: 'price',
@@ -178,7 +322,42 @@
 
                 ],
             },
+            mounted() {
+                this.prepare();
+            },
             methods: {
+                calc() {
+                    var t = this.activeProducts.reduce((a, b) => +a + +(b.price * b.quantity), 0);
+                    t = t * this.activeCurrency.fields.rate || 0
+                    t -= this.discount
+                    this.total = t
+                    this.dept = this.total - this.payed
+                },
+                prepare() {
+                    axios({
+                        method: "get",
+                        url: "{% url 'product.get_currencies' %}",
+                        headers: {"X-CSRFToken": '{{csrf_token}}'}
+                    }).then((r) => {
+                        var r = JSON.parse(r.data.result)
+                        for (let i = 0; i < r.length; i++) {
+                            r[i]["fields"]["pk"] = r[i]["pk"]
+                        }
+                        this.currencies = r
+                        this.activeCurrency = r[0]
+                    })
+                    axios({
+                        method: "get",
+                        url: "{% url 'product.get_sellers' %}",
+                        headers: {"X-CSRFToken": '{{csrf_token}}'}
+                    }).then((r) => {
+                        var r = JSON.parse(r.data.result)
+                        for (let i = 0; i < r.length; i++) {
+                            r[i]["fields"]["pk"] = r[i]["pk"]
+                        }
+                        this.sellers = r
+                    })
+                },
                 addProduct(p, w) {
                     p["quantity"] = 1
                     p["total"] = p.price
@@ -219,20 +398,82 @@
                     this.snackColor = 'success'
                     this.snackText = 'Quantity updated successfully'
                 },
-                cancel() {
-                    this.snack = true
-                    this.snackColor = 'error'
-                    this.snackText = 'Canceled'
-                },
-                open() {
-                    this.snack = true
-                    this.snackColor = 'info'
-                    this.snackText = 'Dialog opened'
-                },
-                close() {
-                    console.log('Dialog closed')
-                },
-            }
-        })
+                addInvoice() {
+                    {#this.finalData = {#}
+                    {#    total: this.total,#}
+                    {#    discount: this.discount,#}
+                    {#    dept: this.dept,#}
+                    {#    payed: this.payed,#}
+                    {#    activeCurrency: this.activeCurrency.pk,#}
+                    {#    activeSeller: this.activeSeller.pk,#}
+                    {#    activeProducts: this.activeProducts,#}
+                    {#}#}
+                        var data = {
+                            "total": 9750000,
+                            "discount": "50000",
+                            "dept": 0,
+                            "payed": "9750000",
+                            "activeCurrency": 2,
+                            "activeProducts": [
+                                {
+                                    "name": "Cedars",
+                                    "stock_price": 20,
+                                    "price": 30,
+                                    "special": 25,
+                                    "expire": "2021-10-30",
+                                    "category": 1,
+                                    "seller": 1,
+                                    "quantity_type": 1,
+                                    "quantity": "2",
+                                    "extra_quantity": 0,
+                                    "barcode": "12345",
+                                    "identifier": ".",
+                                    "location": "a2",
+                                    "alert_if_lower_than": 10,
+                                    "image": ".",
+                                    "material": [
+                                        1
+                                    ],
+                                    "pk": 1,
+                                    "total": 60
+                                },
+                                {
+                                    "name": "Hamra",
+                                    "stock_price": 50,
+                                    "price": 100,
+                                    "special": 80,
+                                    "expire": "2021-10-09",
+                                    "category": 1,
+                                    "seller": 1,
+                                    "quantity_type": 2,
+                                    "quantity": "5",
+                                    "extra_quantity": 0,
+                                    "barcode": ".",
+                                    "identifier": ".",
+                                    "location": "a2",
+                                    "alert_if_lower_than": 2,
+                                    "image": ".",
+                                    "material": [
+                                        1
+                                    ],
+                                    "pk": 2,
+                                    "total": 500
+                                }
+                            ]
+                        }
+                        data = JSON.stringify(data)
+                        var form = new FormData()
+                        form.append("data", data)
+                        axios({
+                            method: "post",
+                            url: "{% url 'invoice.add' %}",
+                            data: form,
+                            headers: {"X-CSRFToken": '{{csrf_token}}'}
+                        }).then((r) => {
+                            console.log(r)
+                        })
+                    }
+                }
+            })
     </script>
 {% endblock %}

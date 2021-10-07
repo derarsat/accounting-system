@@ -1,3 +1,5 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
@@ -5,6 +7,8 @@ from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+
 from product.forms import CategoryForm, SellerForm, ProductForm, CurrencyForm, MaterialForm, QuantityTypeForm
 from product.models import Category, Seller, Product, Currency, Material, QuantityType
 from turbo.settings import LOGIN_URL
@@ -276,10 +280,12 @@ def all_products(request):
     return render(request, "product/all.html", {"products": products})
 
 
-@login_required(login_url=LOGIN_URL)
+@csrf_exempt
+# @login_required(login_url=LOGIN_URL)
 def add_invoice(request):
     if request.method == "POST":
-        pass
+        data = json.loads(request.POST.get("data"))
+        return JsonResponse(data["activeProducts"], safe=False)
     else:
         return render(request, "invoice/add.html")
 
@@ -287,12 +293,31 @@ def add_invoice(request):
 def product_autocomplete(request):
     query = request.POST.get("query")
     if len(query) > 2:
-        result = Product.objects.filter(
+        products = Product.objects.filter(
             Q(name__contains=query) |
             Q(material__name__contains=query) |
             Q(identifier__contains=query) |
             Q(barcode__contains=query)
-        ).distinct()
-        result = serializers.serialize("json", result)
-        result = {"result": result}
+        )
+
+        for product in products:
+            print(product.category.name)
+
+        products = serializers.serialize("json", products)
+        result = {"result": products}
         return JsonResponse(result)
+
+
+def get_currencies(request):
+    result = Currency.objects.all()
+    result = serializers.serialize("json", result)
+    result = {"result": result}
+    return JsonResponse(result)
+
+
+def get_sellers(request):
+    result = Seller.objects.all()
+    result = serializers.serialize("json", result)
+    result = {"result": result}
+    return JsonResponse(result)
+

@@ -1,6 +1,4 @@
 from django.db import models
-import django_filters
-from django.db.models import Q
 
 
 class Material(models.Model):
@@ -64,3 +62,21 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Invoice(models.Model):
+    total = models.FloatField()
+    payed = models.FloatField()
+    expected_earn = models.FloatField()
+    earn = models.FloatField()
+    dept = models.FloatField()
+    date_published = models.DateTimeField(auto_now_add=True)
+    currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True)
+    seller = models.ForeignKey(Seller, on_delete=models.SET_NULL, null=True)
+
+
+class InvoiceProduct(models.Model):
+    product = models.ManyToManyField(Invoice)
+    quantity = models.FloatField()
+    piece_price = models.FloatField()
+    total = models.FloatField()

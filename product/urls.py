@@ -11,5 +11,7 @@ urlpatterns = [
     path("invoice/add", views.add_invoice, name='invoice.add'),
     path("product/add/", views.add_product, name='product.add'),
     path("product/autocomplete/", views.product_autocomplete, name='product.autocomplete'),
+    path("product/get_currencies/", views.get_currencies, name='product.get_currencies'),
+    path("product/get_sellers/", views.get_sellers, name='product.get_sellers'),
     path("", views.all_products, name='product.all'),
 ]

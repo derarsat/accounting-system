@@ -6,14 +6,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/migrations/0002_product_alert_before.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/migrations/0003_rename_alert_before_product_alert_if_lower_than.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/migrations/0004_auto_20210919_2311.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/migrations/0005_auto_20210922_1753.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/product/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/product/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/product/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/invoice/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/add.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/product/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/add.html" afterDir="false" />
     </list>
@@ -184,6 +181,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -285,6 +284,7 @@
       <updated>1632176110602</updated>
       <workItem from="1632957815293" duration="7675000" />
       <workItem from="1633131453138" duration="3810000" />
+      <workItem from="1633574504935" duration="12131000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1632318137704</created>
@@ -371,6 +371,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
