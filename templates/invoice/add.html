@@ -57,7 +57,6 @@
                                                 label="Search Product"
                                                 :search-input.sync="search"
                                                 :items="results"
-                                                cache-items
                                                 item-value="fields"
                                                 item-text="fields.name"
                                                 v-model="lastKnownProduct"
@@ -280,7 +279,7 @@
                 activeCurrency: "",
                 sellers: [],
                 activeSeller: "",
-                dialog: true,
+                dialog: false,
                 addDialog: false,
                 lastKnownProduct: "",
                 snack: false,
@@ -364,12 +363,12 @@
                     this.activeProducts.push(p)
                 },
                 searchProducts() {
-                    try {
-                        this.results.length = 0
+                    this.results.length = 0
 
-                        if (this.search.length < 3) {
-                            return
-                        }
+                    if (this.search.length < 3) {
+                        return
+                    }
+                    try {
                         var bodyFormData = new FormData();
                         bodyFormData.append('query', this.search);
                         axios({
@@ -399,81 +398,29 @@
                     this.snackText = 'Quantity updated successfully'
                 },
                 addInvoice() {
-                    {#this.finalData = {#}
-                    {#    total: this.total,#}
-                    {#    discount: this.discount,#}
-                    {#    dept: this.dept,#}
-                    {#    payed: this.payed,#}
-                    {#    activeCurrency: this.activeCurrency.pk,#}
-                    {#    activeSeller: this.activeSeller.pk,#}
-                    {#    activeProducts: this.activeProducts,#}
-                    {#}#}
-                        var data = {
-                            "total": 9750000,
-                            "discount": "50000",
-                            "dept": 0,
-                            "payed": "9750000",
-                            "activeCurrency": 2,
-                            "activeProducts": [
-                                {
-                                    "name": "Cedars",
-                                    "stock_price": 20,
-                                    "price": 30,
-                                    "special": 25,
-                                    "expire": "2021-10-30",
-                                    "category": 1,
-                                    "seller": 1,
-                                    "quantity_type": 1,
-                                    "quantity": "2",
-                                    "extra_quantity": 0,
-                                    "barcode": "12345",
-                                    "identifier": ".",
-                                    "location": "a2",
-                                    "alert_if_lower_than": 10,
-                                    "image": ".",
-                                    "material": [
-                                        1
-                                    ],
-                                    "pk": 1,
-                                    "total": 60
-                                },
-                                {
-                                    "name": "Hamra",
-                                    "stock_price": 50,
-                                    "price": 100,
-                                    "special": 80,
-                                    "expire": "2021-10-09",
-                                    "category": 1,
-                                    "seller": 1,
-                                    "quantity_type": 2,
-                                    "quantity": "5",
-                                    "extra_quantity": 0,
-                                    "barcode": ".",
-                                    "identifier": ".",
-                                    "location": "a2",
-                                    "alert_if_lower_than": 2,
-                                    "image": ".",
-                                    "material": [
-                                        1
-                                    ],
-                                    "pk": 2,
-                                    "total": 500
-                                }
-                            ]
-                        }
-                        data = JSON.stringify(data)
-                        var form = new FormData()
-                        form.append("data", data)
-                        axios({
-                            method: "post",
-                            url: "{% url 'invoice.add' %}",
-                            data: form,
-                            headers: {"X-CSRFToken": '{{csrf_token}}'}
-                        }).then((r) => {
-                            console.log(r)
-                        })
+                    this.finalData = {
+                        total: this.total,
+                        discount: this.discount,
+                        dept: this.dept,
+                        payed: this.payed,
+                        activeCurrency: this.activeCurrency.pk,
+                        activeSeller: this.activeSeller.pk,
+                        activeProducts: this.activeProducts,
                     }
+
+                    var data = JSON.stringify(this.finalData)
+                    var form = new FormData()
+                    form.append("data", data)
+                    axios({
+                        method: "post",
+                        url: "{% url 'invoice.add' %}",
+                        data: form,
+                        headers: {"X-CSRFToken": '{{csrf_token}}'}
+                    }).then((r) => {
+                        console.log(r)
+                    })
                 }
-            })
+            }
+        })
     </script>
 {% endblock %}

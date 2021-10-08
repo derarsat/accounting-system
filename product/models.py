@@ -66,9 +66,10 @@ class Product(models.Model):
 
 class Invoice(models.Model):
     total = models.FloatField()
+    discount = models.FloatField()
     payed = models.FloatField()
-    expected_earn = models.FloatField()
-    earn = models.FloatField()
+    expected_earn = models.FloatField(blank=True, null=True)
+    earn = models.FloatField(blank=True, null=True)
     dept = models.FloatField()
     date_published = models.DateTimeField(auto_now_add=True)
     currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True)
@@ -76,7 +77,8 @@ class Invoice(models.Model):
 
 
 class InvoiceProduct(models.Model):
-    product = models.ManyToManyField(Invoice)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, )
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, )
     quantity = models.FloatField()
     piece_price = models.FloatField()
     total = models.FloatField()

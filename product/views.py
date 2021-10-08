@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from product.forms import CategoryForm, SellerForm, ProductForm, CurrencyForm, MaterialForm, QuantityTypeForm
-from product.models import Category, Seller, Product, Currency, Material, QuantityType
+from product.models import Category, Seller, Product, Currency, Material, QuantityType, Invoice, InvoiceProduct
 from turbo.settings import LOGIN_URL
 
 
@@ -285,7 +285,31 @@ def all_products(request):
 def add_invoice(request):
     if request.method == "POST":
         data = json.loads(request.POST.get("data"))
-        return JsonResponse(data["activeProducts"], safe=False)
+        invoice = Invoice()
+        cur = Currency.objects.get(pk=data["activeCurrency"])
+        invoice.total = data["total"]
+        invoice.discount = data["discount"]
+        invoice.dept = data["dept"]
+        invoice.payed = data["payed"]
+        invoice.currency = cur
+        cur.value = cur.value + float(data["payed"])
+        cur.save()
+        # invoice.expected_earn = Currency.objects.get(pk=data["activeCurrency"])
+        invoice.save()
+
+        for product in data["activeProducts"]:
+            invoiceProduct = InvoiceProduct()
+            invoiceProduct.invoice_id = invoice.pk
+            invoiceProduct.product_id = product["pk"]
+            invoiceProduct.total = product["total"]
+            invoiceProduct.quantity = product["quantity"]
+            invoiceProduct.piece_price = product["price"]
+            invoiceProduct.save()
+            realProduct = Product.objects.get(pk=product["pk"])
+            flval = float(product["quantity"])
+            realProduct.quantity = realProduct.quantity - flval
+            realProduct.save()
+        return HttpResponse(invoice.pk)
     else:
         return render(request, "invoice/add.html")
 
@@ -299,9 +323,6 @@ def product_autocomplete(request):
             Q(identifier__contains=query) |
             Q(barcode__contains=query)
         )
-
-        for product in products:
-            print(product.category.name)
 
         products = serializers.serialize("json", products)
         result = {"result": products}
@@ -320,4 +341,3 @@ def get_sellers(request):
     result = serializers.serialize("json", result)
     result = {"result": result}
     return JsonResponse(result)
-
