@@ -49,6 +49,11 @@
                            href="{% url 'seller.all' %}">Sellers</a>
 
                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.view_name == 'workers.all' %}active{% endif %}"
+                           href="{% url 'worker.all' %}">Workers</a>
+
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.view_name == 'quantity_type.all' %}active{% endif %}"
                            href="{% url 'quantity_type.all' %}">Quantity Types</a>
@@ -68,7 +73,7 @@
                             Invoices
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'product.all' %}">All Invoices</a>
+                            <a class="dropdown-item" href="{% url 'invoice.all' %}">All Invoices</a>
                             <a class="dropdown-item" href="{% url 'invoice.add' %}">Add Invoice</a>
                         </div>
                     </li>

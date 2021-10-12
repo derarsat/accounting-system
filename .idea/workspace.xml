@@ -4,12 +4,17 @@
     <list default="true" id="2ad947a2-1282-4cb6-92ba-07121403d0d3" name="Default" comment="..">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/migrations/0002_auto_20211002_0244.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/migrations/0003_invoice_invoiceproduct.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0002_auto_20211008_0912.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0003_auto_20211008_0917.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/product/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/product/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/invoice/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/product/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/seller/all.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/seller/all.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,12 +186,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates" />
       <recent name="C:\Users\rderar\Desktop\Personal\accounting-system\templates" />
     </key>
   </component>
@@ -283,6 +289,8 @@
       <workItem from="1633131453138" duration="3810000" />
       <workItem from="1633574504935" duration="12609000" />
       <workItem from="1633681404684" duration="3473000" />
+      <workItem from="1633853231067" duration="9920000" />
+      <workItem from="1634034346454" duration="1671000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1632318137704</created>

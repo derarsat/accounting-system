@@ -16,14 +16,14 @@
         <div class="col-12 col-md-4 mb-4">
             <div class="card">
                 <div class="card-header">
-                    Add New Seller
+                    Add New Worker
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{% url 'seller.all' %}">
+                    <form method="post" action="{% url 'worker.all' %}">
                         {% csrf_token %}
                         <input type="hidden" name="method" value="post">
                         {{ form|crispy }}
-                        <button type="submit" class="btn btn-success">Add Seller</button>
+                        <button type="submit" class="btn btn-success">Add Worker</button>
                     </form>
                 </div>
             </div>
@@ -32,33 +32,30 @@
         <div class="col-12 col-md-8 ">
             <div class="card">
                 <div class="card-header">
-                    All Sellers
+                    All Workers
                 </div>
                 <div class="card-body">
                     <table class="table table-responsive-md table-striped">
                         <thead>
                         <tr>
-                            <th>Seller Name</th>
-                            <th>Seller Phone</th>
-                            <th>Seller Address</th>
+                            <th>Worker Name</th>
+                            <th>Worker Phone</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for seller in sellers %}
+                        {% for worker in workers %}
                             <tr>
-                                <td>{{ seller.name }}</td>
-                                <td>{{ seller.phone }}</td>
-                                <td>{{ seller.address }}</td>
+                                <td>{{ worker.name }}</td>
+                                <td>{{ worker.phone }}</td>
                                 <td>
                                     <button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal"
-                                            data-target="#deleteModal" data-id="{{ seller.id }}">
+                                            data-target="#deleteModal" data-id="{{ worker.id }}">
                                         Delete
                                     </button>
                                     <button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal"
-                                            data-target="#updateModal" data-id="{{ seller.id }}"
-                                            data-phone="{{ seller.phone }}" data-name="{{ seller.name }}"
-                                            data-address="{{ seller.address }}">
+                                            data-target="#updateModal" data-id="{{ worker.id }}"
+                                            data-phone="{{ worker.phone }}" data-name="{{ worker.name }}">
                                         Edit
 
                                     </button>
@@ -67,17 +64,17 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                    {% if sellers.has_other_pages %}
+                    {% if workers.has_other_pages %}
                         <ul class="pagination mx-auto">
-                            {% if sellers.has_previous %}
+                            {% if workers.has_previous %}
                                 <li class="page-item"><a class="page-link"
-                                                         href="?page={{ sellers.previous_page_number }}">&laquo;</a>
+                                                         href="?page={{ workers.previous_page_number }}">&laquo;</a>
                                 </li>
                             {% else %}
                                 <li class="disabled page-item"><a class="page-link">&laquo;</a></li>
                             {% endif %}
-                            {% for i in sellers.paginator.page_range %}
-                                {% if sellers.number == i %}
+                            {% for i in workers.paginator.page_range %}
+                                {% if workers.number == i %}
                                     <li class="active page-item"><a class="page-link">{{ i }} <span
                                             class="sr-only">(current)</span></a>
                                     </li>
@@ -85,9 +82,9 @@
                                     <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
                                 {% endif %}
                             {% endfor %}
-                            {% if sellers.has_next %}
+                            {% if workers.has_next %}
                                 <li class="page-item"><a class="page-link"
-                                                         href="?page={{ sellers.next_page_number }}">&raquo;</a>
+                                                         href="?page={{ workers.next_page_number }}">&raquo;</a>
                                 </li>
                             {% else %}
                                 <li class="disabled page-item"><a class="page-link">&raquo;</a></li>
@@ -104,18 +101,18 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Seller ?</h5>
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Worker ?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    If you deleted this seller you will not be able to filter products that belongs to it.
+                    If you deleted this worker you will not be able to filter products that belongs to it.
                 </div>
-                <form action="{% url 'seller.all' %}" method="post">
+                <form action="{% url 'worker.all' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="method" value="delete">
-                    <input type="hidden" name="seller_id" id="seller_id_to_delete">
+                    <input type="hidden" name="worker_id" id="worker_id_to_delete">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-danger">Ok Delete</button>
@@ -135,37 +132,32 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Update Seller</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Update Worker</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="post" action="{% url 'seller.all' %}">
+                <form method="post" action="{% url 'worker.all' %}">
                     {% csrf_token %}
                     <input type="hidden" name="method" value="put">
-                    <input type="hidden" name="seller_id" id="seller_id_to_edit">
+                    <input type="hidden" name="worker_id" id="worker_id_to_edit">
 
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="seller_name_edit">Seller Name</label>
-                            <input type="text" class="form-control" id="seller_name_edit"
-                                   placeholder="Enter seller name" name="name">
+                            <label for="worker_name_edit">Worker Name</label>
+                            <input type="text" class="form-control" id="worker_name_edit"
+                                   placeholder="Enter worker name" name="name">
 
                         </div>
                         <div class="form-group">
-                            <label for="seller_phone_edit">Seller Phone</label>
-                            <input type="text" name="phone" class="form-control" id="seller_phone_edit"
+                            <label for="worker_phone_edit">Worker Phone</label>
+                            <input type="text" name="phone" class="form-control" id="worker_phone_edit"
                                    placeholder="Enter phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="seller_address_edit">Seller Phone</label>
-                            <input type="text" name="address" class="form-control" id="seller_address_edit"
-                                   placeholder="Enter Address">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update Seller</button>
+                        <button type="submit" class="btn btn-primary">Update Worker</button>
 
                     </div>
                 </form>
@@ -176,19 +168,17 @@
     <script>
         $(document).ready(function () {
             $(".delete-btn").click(function () {
-                var seller_id = $(this).attr("data-id");
-                $("#seller_id_to_delete").val(seller_id)
+                var worker_id = $(this).attr("data-id");
+                $("#worker_id_to_delete").val(worker_id)
             });
 
             $(".edit-btn").click(function () {
-                var seller_name = $(this).attr("data-name");
-                var seller_phone = $(this).attr("data-phone");
-                var seller_address = $(this).attr("data-address");
-                var seller_id = $(this).attr("data-id");
-                $("#seller_id_to_edit").val(seller_id)
-                $("#seller_name_edit").val(seller_name);
-                $("#seller_phone_edit").val(seller_phone);
-                $("#seller_address_edit").val(seller_address);
+                var worker_name = $(this).attr("data-name");
+                var worker_phone = $(this).attr("data-phone");
+                var worker_id = $(this).attr("data-id");
+                $("#worker_id_to_edit").val(worker_id)
+                $("#worker_name_edit").val(worker_name);
+                $("#worker_phone_edit").val(worker_phone);
             })
         })
     </script>

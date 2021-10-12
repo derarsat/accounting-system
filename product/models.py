@@ -28,13 +28,22 @@ class Currency(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=30, unique=True)
-    desc = models.CharField(max_length=300, null=True, blank=False)
+    desc = models.CharField(max_length=300, null=True, blank=False,default=None)
 
     def __str__(self):
         return self.name
 
 
 class Seller(models.Model):
+    name = models.CharField(max_length=30, unique=True)
+    phone = models.CharField(max_length=300, null=True, unique=True, blank=False)
+    address = models.CharField(max_length=300, null=True, blank=False)
+
+    def __str__(self):
+        return self.name
+
+
+class Worker(models.Model):
     name = models.CharField(max_length=30, unique=True)
     phone = models.CharField(max_length=300, null=True, unique=True, blank=False)
 
@@ -74,11 +83,15 @@ class Invoice(models.Model):
     date_published = models.DateTimeField(auto_now_add=True)
     currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True)
     seller = models.ForeignKey(Seller, on_delete=models.SET_NULL, null=True)
+    worker = models.ForeignKey(Worker, on_delete=models.SET_NULL, null=True)
+    paydate = models.DateField()
 
 
 class InvoiceProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, )
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, )
     quantity = models.FloatField()
+    extra_quantity = models.FloatField()
+    quantity_type = models.ForeignKey(QuantityType, on_delete=models.CASCADE, )
     piece_price = models.FloatField()
     total = models.FloatField()

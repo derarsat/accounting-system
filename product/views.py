@@ -7,10 +7,12 @@ from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from product.forms import CategoryForm, SellerForm, ProductForm, CurrencyForm, MaterialForm, QuantityTypeForm
-from product.models import Category, Seller, Product, Currency, Material, QuantityType, Invoice, InvoiceProduct
+from product.forms import CategoryForm, SellerForm, ProductForm, CurrencyForm, MaterialForm, QuantityTypeForm, \
+    WorkerForm
+from product.models import Category, Seller, Product, Currency, Material, QuantityType, Invoice, InvoiceProduct, Worker
 from turbo.settings import LOGIN_URL
 
 
@@ -83,11 +85,13 @@ def all_sellers(request):
             seller_id = request.POST.get("seller_id")
             seller_name = request.POST.get("name")
             seller_phone = request.POST.get("phone")
+            seller_address = request.POST.get("address")
             seller_exists = Seller.objects.filter(name=seller_name).exclude(pk=seller_id)
             if not seller_exists:
                 seller = Seller.objects.get(pk=seller_id)
                 seller.name = seller_name
                 seller.phone = seller_phone
+                seller.address = seller_address
                 seller.save()
                 messages.add_message(request, messages.SUCCESS, 'Seller updated successfully.')
             else:
@@ -108,6 +112,54 @@ def all_sellers(request):
         sellers = paginator.page(paginator.num_pages)
 
     return render(request, 'seller/all.html', {'sellers': sellers, "form": form})
+
+
+# Workers
+@login_required(login_url=LOGIN_URL)
+def all_workers(request):
+    # post method
+    if request.method == 'POST':
+        method = request.POST.get("method").lower()
+        if method == "post":
+            form = WorkerForm(request.POST)
+            if form.is_valid():
+                form.save()
+                messages.add_message(request, messages.SUCCESS, 'Worker added successfully.')
+                return redirect("worker.all")
+        elif method == "delete":
+            worker_id = request.POST.get("worker_id")
+            Worker.objects.get(pk=worker_id).delete()
+            messages.add_message(request, messages.WARNING, 'Worker deleted successfully.')
+            return redirect("worker.all")
+        elif method == "put":
+            worker_id = request.POST.get("worker_id")
+            worker_name = request.POST.get("name")
+            worker_phone = request.POST.get("phone")
+            worker_exists = Worker.objects.filter(name=worker_name).exclude(pk=worker_id)
+            if not worker_exists:
+                worker = Worker.objects.get(pk=worker_id)
+                worker.name = worker_name
+                worker.phone = worker_phone
+                worker.save()
+                messages.add_message(request, messages.SUCCESS, 'Worker updated successfully.')
+            else:
+                messages.add_message(request, messages.WARNING, 'Worker data exists')
+
+            return redirect("worker.all")
+    # Get method
+    else:
+        form = WorkerForm()
+    workers = Worker.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(workers, 15)
+    try:
+        workers = paginator.page(page)
+    except PageNotAnInteger:
+        workers = paginator.page(1)
+    except EmptyPage:
+        workers = paginator.page(paginator.num_pages)
+
+    return render(request, 'worker/all.html', {'workers': workers, "form": form})
 
 
 @login_required(login_url=LOGIN_URL)
@@ -280,20 +332,36 @@ def all_products(request):
     return render(request, "product/all.html", {"products": products})
 
 
-@csrf_exempt
-# @login_required(login_url=LOGIN_URL)
+@login_required(login_url=LOGIN_URL)
+def view_invoice(request, pk):
+    invoice = Invoice.objects.get(pk=pk)
+    products = InvoiceProduct.objects.filter(invoice_id=pk)
+    return render(request, "invoice/view.html", {"invoice": invoice, "products": products})
+
+
+@login_required(login_url=LOGIN_URL)
 def add_invoice(request):
     if request.method == "POST":
         data = json.loads(request.POST.get("data"))
         invoice = Invoice()
+
         cur = Currency.objects.get(pk=data["activeCurrency"])
+        invoice.currency = cur
+        cur.value = cur.value + float(data["payed"])
+        cur.save()
+
+        se = Seller.objects.get(pk=data["activeSeller"])
+        invoice.seller = se
+
+        wo = Worker.objects.get(pk=data["activeWorker"])
+        invoice.worker = wo
+
         invoice.total = data["total"]
         invoice.discount = data["discount"]
         invoice.dept = data["dept"]
         invoice.payed = data["payed"]
-        invoice.currency = cur
-        cur.value = cur.value + float(data["payed"])
-        cur.save()
+        invoice.paydate = data["paydate"]
+
         # invoice.expected_earn = Currency.objects.get(pk=data["activeCurrency"])
         invoice.save()
 
@@ -304,12 +372,15 @@ def add_invoice(request):
             invoiceProduct.total = product["total"]
             invoiceProduct.quantity = product["quantity"]
             invoiceProduct.piece_price = product["price"]
+            invoiceProduct.extra_quantity = 0
+            invoiceProduct.quantity_type_id = 1
             invoiceProduct.save()
             realProduct = Product.objects.get(pk=product["pk"])
             flval = float(product["quantity"])
             realProduct.quantity = realProduct.quantity - flval
             realProduct.save()
-        return HttpResponse(invoice.pk)
+            resp = {"pk": invoice.pk}
+        return JsonResponse(resp)
     else:
         return render(request, "invoice/add.html")
 
@@ -341,3 +412,35 @@ def get_sellers(request):
     result = serializers.serialize("json", result)
     result = {"result": result}
     return JsonResponse(result)
+
+
+def get_workers(request):
+    result = Worker.objects.all()
+    result = serializers.serialize("json", result)
+    result = {"result": result}
+    return JsonResponse(result)
+
+
+def get_quantity_types(request):
+    result = QuantityType.objects.all()
+    result = serializers.serialize("json", result)
+    result = {"result": result}
+    return JsonResponse(result)
+
+
+@login_required(login_url=LOGIN_URL)
+def view_invoice_last(request):
+    invoice = Invoice.objects.last()
+    return redirect(reverse("invoice.view", args=[invoice.pk]))
+
+
+@login_required(login_url=LOGIN_URL)
+def all_invoices(request):
+    invoices = Invoice.objects.all()
+    return render(request, "invoice/all.html", {"invoices": invoices})
+
+
+@login_required(login_url=LOGIN_URL)
+def seller_invoices(request, pk):
+    invoices = Invoice.objects.filter(seller=pk)
+    return render(request, "invoice/all.html", {"invoices": invoices})

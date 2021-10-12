@@ -101,7 +101,24 @@
                             </template>
                         </v-edit-dialog>
                     </template>
+                    <template v-slot:item.price="props">
+                        <v-edit-dialog
+                                :return-value.sync="props.item.price"
+                                @save="save2(props.item,props.item.price)"
+                        >
+                            [[props.item.price]]
+                            <template v-slot:input>
+                                <v-text-field
+                                        v-model="props.item.price"
+                                        label="Edit"
+                                        single-line
+                                ></v-text-field>
+                            </template>
+                        </v-edit-dialog>
+                    </template>
                 </v-data-table>
+
+
                 <template>
                     <v-row justify="center">
                         <v-dialog
@@ -152,7 +169,7 @@
                                 </v-toolbar>
                                 <v-container fluid>
                                     <v-row class="mt-5 align-center">
-                                        <v-col cols="2">
+                                        <v-col cols="3">
                                             <v-combobox
                                                     v-model="activeCurrency"
                                                     :items="currencies"
@@ -161,7 +178,7 @@
                                                     outlined
                                             ></v-combobox>
                                         </v-col>
-                                        <v-col cols="2">
+                                        <v-col cols="3">
                                             <v-combobox
                                                     v-model="activeSeller"
                                                     :items="sellers"
@@ -170,7 +187,42 @@
                                                     item-text="fields.name"
                                             ></v-combobox>
                                         </v-col>
-                                        <v-col cols="2">
+                                        <v-col cols="3">
+                                            <v-combobox
+                                                    v-model="activeWorker"
+                                                    :items="workers"
+                                                    outlined
+                                                    label="Worker"
+                                                    item-text="fields.name"
+                                            ></v-combobox>
+                                        </v-col>
+                                        <v-col cols="3">
+                                            <v-menu
+
+                                                    :close-on-content-click="true"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                    max-width="290px"
+                                                    min-width="auto"
+                                            >
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-text-field
+                                                            v-model="paydate"
+                                                            label="Pay Date"
+                                                            outlined
+                                                            persistent-hint
+                                                            v-bind="attrs"
+                                                            v-on="on"
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-date-picker
+                                                        v-model="paydate"
+                                                        no-title
+                                                        @input="menu1 = false"
+                                                ></v-date-picker>
+                                            </v-menu>
+                                        </v-col>
+                                        <v-col cols="3">
                                             <v-text-field
                                                     v-model="discount"
                                                     type="number"
@@ -181,7 +233,7 @@
                                             </v-text-field>
                                         </v-col>
 
-                                        <v-col cols="2">
+                                        <v-col cols="3">
                                             <v-text-field
                                                     v-model="payed"
                                                     type="number"
@@ -191,7 +243,8 @@
                                             >
                                             </v-text-field>
                                         </v-col>
-                                        <v-col cols="2">
+
+                                        <v-col cols="3">
                                             <v-text-field
                                                     v-model="dept"
                                                     type="number"
@@ -202,7 +255,7 @@
                                             >
                                             </v-text-field>
                                         </v-col>
-                                        <v-col cols="2">
+                                        <v-col cols="3">
                                             <v-text-field
                                                     type="number"
                                                     label="Amount To Be Taken From Client"
@@ -239,7 +292,6 @@
                     </template>
                 </v-snackbar>
             </div>
-            [[ finalData ]]
         </v-app>
     </div>
 
@@ -278,8 +330,12 @@
                 currencies: [],
                 activeCurrency: "",
                 sellers: [],
+                workers: [],
                 activeSeller: "",
-                dialog: false,
+                activeWorker: "",
+                paydate: new Date().toISOString().split("T")[0],
+                menu1: false,
+                dialog: true,
                 addDialog: false,
                 lastKnownProduct: "",
                 snack: false,
@@ -299,15 +355,16 @@
                         value: 'name',
                     },
                     {
+                        text: 'Quantity Type',
+                        sortable: true,
+                        value: 'quantity_type.name',
+                    },
+                    {
                         text: 'Quantity',
                         sortable: true,
                         value: 'quantity',
                     },
-                    {
-                        text: 'Quantity Type',
-                        sortable: true,
-                        value: 'quantity',
-                    },
+
                     {
                         text: 'One Price Price',
                         sortable: true,
@@ -326,11 +383,13 @@
             },
             methods: {
                 calc() {
-                    var t = this.activeProducts.reduce((a, b) => +a + +(b.price * b.quantity), 0);
-                    t = t * this.activeCurrency.fields.rate || 0
-                    t -= this.discount
-                    this.total = t
-                    this.dept = this.total - this.payed
+                    if (this.activeProducts.length > 0) {
+                        var t = this.activeProducts.reduce((a, b) => +a + +(b.price * b.quantity * b.quantity_type.value), 0);
+                        t = t * this.activeCurrency.fields.rate || 0
+                        t -= this.discount
+                        this.total = t
+                        this.dept = this.total - this.payed
+                    }
                 },
                 prepare() {
                     axios({
@@ -356,16 +415,48 @@
                         }
                         this.sellers = r
                     })
+
+
+                    axios({
+                        method: "get",
+                        url: "{% url 'product.get_workers' %}",
+                        headers: {"X-CSRFToken": '{{csrf_token}}'}
+                    }).then((r) => {
+                        var r = JSON.parse(r.data.result)
+                        for (let i = 0; i < r.length; i++) {
+                            r[i]["fields"]["pk"] = r[i]["pk"]
+                        }
+                        this.workers = r
+                    })
+
+
+                    axios({
+                        method: "get",
+                        url: "{% url 'product.get_quantity_types' %}",
+                        headers: {"X-CSRFToken": '{{csrf_token}}'}
+                    }).then((r) => {
+                        var r = JSON.parse(r.data.result)
+                        for (let i = 0; i < r.length; i++) {
+                            r[i]["fields"]["pk"] = r[i]["pk"]
+                        }
+                        this.quantity_types = r
+                    })
                 },
                 addProduct(p, w) {
                     p["quantity"] = 1
                     p["total"] = p.price
+                    for (let i = 0; i < this.quantity_types.length; i++) {
+                        if (this.quantity_types[i]["pk"] == p["quantity_type"]) {
+                            p["quantity_type"] = this.quantity_types[i]["fields"]
+                        }
+                    }
+                    p["total"] = p.price * p.quantity_type.value * this.activeCurrency["fields"]["rate"]
                     this.activeProducts.push(p)
                 },
                 searchProducts() {
                     this.results.length = 0
 
-                    if (this.search.length < 3) {
+                    if (this.search?.length < 3) {
                         return
                     }
                     try {
@@ -380,6 +471,8 @@
                             var r = JSON.parse(r.data.result)
                             for (let i = 0; i < r.length; i++) {
                                 r[i]["fields"]["pk"] = r[i]["pk"]
+
+
                             }
                             this.results = r
                         })
@@ -388,14 +481,22 @@
                     }
                 },
                 save(item, newquan) {
-                    console.log(item)
                     objIndex = this.activeProducts.findIndex((obj => obj.pk == item.pk));
-                    item.total = item.price * newquan
+                    item.total = item.price * newquan * item.quantity_type.value
                     this.$set(this.activeProducts, objIndex, item)
 
                     this.snack = true
                     this.snackColor = 'success'
                     this.snackText = 'Quantity updated successfully'
+                },
+                save2(item, newprice) {
+                    objIndex = this.activeProducts.findIndex((obj => obj.pk == item.pk));
+                    item.total = item.quantity * newprice * item.quantity_type.value
+                    this.$set(this.activeProducts, objIndex, item)
+
+                    this.snack = true
+                    this.snackColor = 'success'
+                    this.snackText = 'Price updated successfully'
                 },
                 addInvoice() {
                     this.finalData = {
@@ -405,6 +506,8 @@
                         payed: this.payed,
                         activeCurrency: this.activeCurrency.pk,
                         activeSeller: this.activeSeller.pk,
+                        activeWorker: this.activeWorker.pk,
+                        paydate: this.paydate,
                         activeProducts: this.activeProducts,
                     }
 
@@ -417,7 +520,7 @@
                         data: form,
                         headers: {"X-CSRFToken": '{{csrf_token}}'}
                     }).then((r) => {
-                        console.log(r)
+                        window.location.href = "{% url 'invoice.view.last' %}"
                     })
                 }
             }
