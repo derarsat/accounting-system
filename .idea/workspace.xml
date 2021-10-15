@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ad947a2-1282-4cb6-92ba-07121403d0d3" name="Default" comment="..">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/turbo/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/turbo/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -281,7 +283,7 @@
       <workItem from="1633853231067" duration="9920000" />
       <workItem from="1634034346454" duration="1671000" />
       <workItem from="1634145641032" duration="2646000" />
-      <workItem from="1634285596533" duration="6659000" />
+      <workItem from="1634285596533" duration="7625000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1632318137704</created>
