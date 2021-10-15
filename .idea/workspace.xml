@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ad947a2-1282-4cb6-92ba-07121403d0d3" name="Default" comment="..">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/turbo/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/turbo/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +15,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -282,7 +281,7 @@
       <workItem from="1633853231067" duration="9920000" />
       <workItem from="1634034346454" duration="1671000" />
       <workItem from="1634145641032" duration="2646000" />
-      <workItem from="1634285596533" duration="5906000" />
+      <workItem from="1634285596533" duration="6659000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1632318137704</created>
