@@ -62,15 +62,23 @@ WSGI_APPLICATION = 'turbo.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'tu',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-ALLOWED_HOSTS = ["accounting.almottahida.store","127.0.0.1"]
+ALLOWED_HOSTS = ["accounting.almottahida.store", "127.0.0.1"]
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',

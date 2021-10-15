@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from product.models import Category, Seller, Product, Currency, Material, QuantityType, Worker
+from product.models import Category, Seller, Product, Currency, Material, QuantityType, Worker, InvoicePayment
 
 
 class CategoryForm(ModelForm):
@@ -12,6 +12,12 @@ class CategoryForm(ModelForm):
 class SellerForm(ModelForm):
     class Meta:
         model = Seller
+        fields = "__all__"
+
+
+class InvoicePaymentForm(ModelForm):
+    class Meta:
+        model = InvoicePayment
         fields = "__all__"
 
 

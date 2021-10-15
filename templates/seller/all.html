@@ -51,10 +51,10 @@
                                 <td>{{ seller.phone }}</td>
                                 <td>{{ seller.address }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal"
-                                            data-target="#deleteModal" data-id="{{ seller.id }}">
-                                        Delete
-                                    </button>
+{#                                    <button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal"#}
+{#                                            data-target="#deleteModal" data-id="{{ seller.id }}">#}
+{#                                        Delete#}
+{#                                    </button>#}
                                     <button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal"
                                             data-target="#updateModal" data-id="{{ seller.id }}"
                                             data-phone="{{ seller.phone }}" data-name="{{ seller.name }}"
@@ -62,6 +62,7 @@
                                         Edit
 
                                     </button>
+                                    <a class="btn btn-success btn-sm" href="{% url 'seller.add_payment' seller.pk %}">Add Payment</a>
                                 </td>
                             </tr>
                         {% endfor %}

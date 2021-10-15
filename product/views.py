@@ -11,8 +11,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from product.forms import CategoryForm, SellerForm, ProductForm, CurrencyForm, MaterialForm, QuantityTypeForm, \
-    WorkerForm
-from product.models import Category, Seller, Product, Currency, Material, QuantityType, Invoice, InvoiceProduct, Worker
+    WorkerForm, InvoicePaymentForm
+from product.models import Category, Seller, Product, Currency, Material, QuantityType, Invoice, InvoiceProduct, Worker, \
+    InvoicePayment
 from turbo.settings import LOGIN_URL
 
 
@@ -112,6 +113,18 @@ def all_sellers(request):
         sellers = paginator.page(paginator.num_pages)
 
     return render(request, 'seller/all.html', {'sellers': sellers, "form": form})
+
+
+@login_required(login_url=LOGIN_URL)
+def add_seller_payment(request, pk):
+    form = InvoicePaymentForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+    invoices = Invoice.objects.filter(seller_id=pk)
+    payments = InvoicePayment.objects.filter(seller_id=pk)
+    seller = Seller.objects.get(pk=pk)
+    return render(request, "seller/add_payment.html",
+                  {"form": form, "invoices": invoices, "payments": payments, "seller": seller})
 
 
 # Workers
@@ -316,6 +329,15 @@ def add_product(request):
     else:
         form = ProductForm()
         return render(request, 'product/add.html', {"form": form})
+
+
+@login_required(login_url=LOGIN_URL)
+def edit_product(request, pk):
+    product = Product.objects.get(pk=pk)
+    form = ProductForm(request.POST or None, instance=product)
+    if form.is_valid():
+        form.save()
+    return render(request, 'product/edit.html', {"form": form, "product": product})
 
 
 @login_required(login_url=LOGIN_URL)

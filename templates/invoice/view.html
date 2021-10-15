@@ -1,35 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="row">
-        <div class="col-12">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th scope="col">Seller Name</th>
-                    <th scope="col">Seller Phone</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Pay Date</th>
-                    <th scope="col">Currency</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Discount</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{{ invoice.seller.name }}</td>
-                    <td>{{ invoice.seller.phone }}</td>
-                    <td>{{ invoice.seller.address }}</td>
-                    <td>{{ invoice.date_published|date }}</td>
-                    <td>{{ invoice.date_published }}</td>
-                    <td>{{ invoice.currency.name }}</td>
-                    <td>{{ invoice.total }}</td>
-                    <td>{{ invoice.discount }}</td>
 
-                </tr>
-                </tbody>
-            </table>
-        </div>
 
         <div class="col-12">
             <table class="table table-bordered">
@@ -54,6 +26,30 @@
                 {% endfor %}
 
 
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">Seller Name</th>
+                    <th scope="col">Seller Phone</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Date</th>
+                    {#                    <th scope="col">Currency</th>#}
+                    <th scope="col">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ invoice.seller.name }}</td>
+                    <td>{{ invoice.seller.phone }}</td>
+                    <td>{{ invoice.seller.address }}</td>
+                    <td>{{ invoice.date_published|date }}</td>
+                    {#                    <td>{{ invoice.currency.name }}</td>#}
+                    <td>{{ invoice.total }}{{ invoice.currency.name }} </td>
+                </tr>
                 </tbody>
             </table>
         </div>

@@ -17,7 +17,8 @@
             <tr>
                 <th>{{ invoice.date_published|date }}</th>
                 <th>
-                    <a class="link" href="{% url 'invoice.seller.view' invoice.seller.pk %}">{{ invoice.seller.name }}</a>
+                    <a class="link"
+                       href="{% url 'invoice.seller.view' invoice.seller.pk %}">{{ invoice.seller.name }}</a>
                 </th>
                 <td>{{ invoice.discount }}{{ invoice.currency }}</td>
                 <th class="text-success">{{ invoice.payed }}{{ invoice.currency }}</th>

@@ -28,7 +28,7 @@ class Currency(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=30, unique=True)
-    desc = models.CharField(max_length=300, null=True, blank=False,default=None)
+    desc = models.CharField(max_length=300, null=True, blank=False, default=None)
 
     def __str__(self):
         return self.name
@@ -63,7 +63,7 @@ class Product(models.Model):
     quantity_type = models.ForeignKey(QuantityType, on_delete=models.SET_NULL, null=True)
     quantity = models.FloatField()
     extra_quantity = models.FloatField(null=True, default=0)
-    barcode = models.CharField(null=True, max_length=30, blank=False)
+    barcode = models.CharField(null=True, max_length=30, blank=False, default=" ")
     identifier = models.CharField(null=True, max_length=30, blank=False)
     location = models.CharField(null=True, max_length=30, blank=False)
     alert_if_lower_than = models.IntegerField(null=True)
@@ -95,3 +95,10 @@ class InvoiceProduct(models.Model):
     quantity_type = models.ForeignKey(QuantityType, on_delete=models.CASCADE, )
     piece_price = models.FloatField()
     total = models.FloatField()
+
+
+class InvoicePayment(models.Model):
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE, )
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE, )
+    add_date = models.DateTimeField(auto_now_add=True)
+    amount = models.FloatField()
