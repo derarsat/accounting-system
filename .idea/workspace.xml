@@ -2,23 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ad947a2-1282-4cb6-92ba-07121403d0d3" name="Default" comment="..">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/migrations/0002_auto_20211010_0929.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/invoice/all.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/all.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/invoice/view.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/product/all.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/all.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/seller/all.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/seller/all.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/turbo/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/turbo/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/pyvenv.cfg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -297,7 +282,7 @@
       <workItem from="1633853231067" duration="9920000" />
       <workItem from="1634034346454" duration="1671000" />
       <workItem from="1634145641032" duration="2646000" />
-      <workItem from="1634285596533" duration="5149000" />
+      <workItem from="1634285596533" duration="5906000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1632318137704</created>

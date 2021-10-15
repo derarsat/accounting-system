@@ -68,9 +68,9 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tu',
-        'USER': 'root',
-        'PASSWORD': '',
+        'NAME': 'almoekha_accounting_database',
+        'USER': 'accounting_user',
+        'PASSWORD': 'TITNDPilavm7050@!',
         'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
         'PORT': '3306',
     }
