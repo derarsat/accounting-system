@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ad947a2-1282-4cb6-92ba-07121403d0d3" name="Default" comment="..">
-      <change beforePath="$PROJECT_DIR$/product/migrations/0002_auto_20211018_1413.py" beforeDir="false" />
-    </list>
+    <list default="true" id="2ad947a2-1282-4cb6-92ba-07121403d0d3" name="Default" comment=".." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -286,7 +284,7 @@
       <workItem from="1634145641032" duration="2646000" />
       <workItem from="1634285596533" duration="8596000" />
       <workItem from="1634465710447" duration="1918000" />
-      <workItem from="1634550841058" duration="4741000" />
+      <workItem from="1634550841058" duration="5194000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1632318137704</created>

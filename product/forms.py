@@ -21,10 +21,10 @@ class InvoicePaymentForm(ModelForm):
         fields = "__all__"
 
 
-class DailyBoxOperationForm(ModelForm):
-    class Meta:
-        model = DailyBoxOperation
-        fields = "__all__"
+# class DailyBoxOperationForm(ModelForm):
+#     class Meta:
+#         model = DailyBoxOperation
+#         fields = "__all__"
 
 
 class WorkerForm(ModelForm):
