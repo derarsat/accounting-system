@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from product.forms import CategoryForm, SellerForm, ProductForm, CurrencyForm, MaterialForm, QuantityTypeForm, \
     WorkerForm, InvoicePaymentForm, DailyBoxOperationForm
-from product.models import Category, Seller, Product, Currency, Material, QuantityType, Invoice, InvoiceProduct, Worker,InvoicePayment, DailyBoxOperation
+from product.models import *
 from turbo.settings import LOGIN_URL
 
 
