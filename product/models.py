@@ -66,7 +66,7 @@ class Product(models.Model):
     material = models.ManyToManyField(Material)
     quantity_type = models.ForeignKey(QuantityType, on_delete=models.SET_NULL, null=True)
     quantity = models.FloatField()
-    weight = models.CharField(max_length=100, choices=Weight, blank=True, null=True)
+    weight = models.CharField(max_length=100, choices=Weight)
     extra_quantity = models.FloatField(null=True, default=0)
     barcode = models.CharField(null=True, max_length=100, blank=False, default=" ")
     identifier = models.CharField(null=True, max_length=100, blank=False)
