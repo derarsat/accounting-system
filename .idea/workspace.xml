@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ad947a2-1282-4cb6-92ba-07121403d0d3" name="Default" comment="..">
-      <change beforePath="$PROJECT_DIR$/product/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0002_auto_20211013_2037.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0003_alter_product_barcode.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0004_alter_product_barcode.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0005_invoicepayment.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0006_remove_invoicepayment_invoice.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0007_invoicepayment_currency.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0008_rename_currency_invoicepayment_currency.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0009_auto_20211018_1401.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0009_dailyboxoperation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0010_dailyboxoperation_add_date.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0010_delete_dailyboxoperation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0011_alter_dailyboxoperation_add_date.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/product/migrations/0012_merge_20211018_1404.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -286,7 +298,7 @@
       <workItem from="1634145641032" duration="2646000" />
       <workItem from="1634285596533" duration="8596000" />
       <workItem from="1634465710447" duration="1918000" />
-      <workItem from="1634550841058" duration="4037000" />
+      <workItem from="1634550841058" duration="4440000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1632318137704</created>
