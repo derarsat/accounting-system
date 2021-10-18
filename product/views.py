@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from django.contrib import messages
@@ -11,9 +12,9 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from product.forms import CategoryForm, SellerForm, ProductForm, CurrencyForm, MaterialForm, QuantityTypeForm, \
-    WorkerForm, InvoicePaymentForm
+    WorkerForm, InvoicePaymentForm, DailyBoxOperationForm
 from product.models import Category, Seller, Product, Currency, Material, QuantityType, Invoice, InvoiceProduct, Worker, \
-    InvoicePayment
+    InvoicePayment, DailyBoxOperation
 from turbo.settings import LOGIN_URL
 
 
@@ -125,6 +126,18 @@ def add_seller_payment(request, pk):
     seller = Seller.objects.get(pk=pk)
     return render(request, "seller/add_payment.html",
                   {"form": form, "invoices": invoices, "payments": payments, "seller": seller})
+
+
+@login_required(login_url=LOGIN_URL)
+def daily_box(request):
+    form = DailyBoxOperationForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+    today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+    today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+    ops = DailyBoxOperation.objects.filter(add_date__range=(today_min, today_max))
+    return render(request, "box/daily_box.html",
+                  {"form": form, "ops": ops})
 
 
 # Workers

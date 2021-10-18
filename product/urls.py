@@ -7,6 +7,7 @@ urlpatterns = [
     path("seller/", views.all_sellers, name='seller.all'),
     path("seller/<int:pk>/add_payment", views.add_seller_payment, name='seller.add_payment'),
     path("worker/", views.all_workers, name='worker.all'),
+    path("box/", views.daily_box, name='box.daily'),
     path("quantity_types/", views.all_quantity_types, name='quantity_type.all'),
     path("currency/", views.all_currencies, name='currency.all'),
     path("material/", views.all_materials, name='material.all'),
