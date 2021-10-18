@@ -44,8 +44,12 @@
                 <tbody>
                 {% for product in products %}
                     <tr>
+                        <td scope="row"><a href="{% url 'product.edit' product.pk %}" class=" btn btn-primary">Edit</a>
+                        </td>
+                        <td>
+                            <img src="{{ product.image }}" height="50" alt="">
+                        </td>
                         <td scope="row">{{ product.name }}</td>
-                        <td scope="row"><a href="{% url 'product.edit' product.pk %}" class=" btn btn-primary">Edit</a></td>
                         <td scope="row">{{ product.stock_price }}</td>
                         <td scope="row">{{ product.price }}</td>
                         <td scope="row">{{ product.special }}</td>
