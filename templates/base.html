@@ -42,14 +42,14 @@
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.view_name == 'category.all' %}active{% endif %}"
-                           href="{% url 'category.all' %}">Categories</a>
+                           href="{% url 'category.all' %}">Classification</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.view_name == 'seller.all' %}active{% endif %}"
                            href="{% url 'seller.all' %}">Sellers</a>
 
                     </li>
-                     <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.view_name == 'workers.all' %}active{% endif %}"
                            href="{% url 'worker.all' %}">Workers</a>
 
@@ -64,7 +64,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.view_name == 'material.all' %}active{% endif %}"
-                           href="{% url 'material.all' %}">Materials</a>
+                           href="{% url 'material.all' %}">Active Ingredients</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {% if "invoice" in request.resolver_match.view_name %}active{% endif %}"
