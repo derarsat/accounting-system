@@ -129,14 +129,15 @@ def add_seller_payment(request, pk):
 
 @login_required(login_url=LOGIN_URL)
 def daily_box(request):
-    form = DailyBoxOperationForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-    today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-    today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
-    ops = DailyBoxOperation.objects.filter(add_date__range=(today_min, today_max))
-    return render(request, "box/daily_box.html",
-                  {"form": form, "ops": ops})
+    pass
+    # form = DailyBoxOperationForm(request.POST or None)
+    # if form.is_valid():
+    #     form.save()
+    # today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+    # today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+    # ops = DailyBoxOperation.objects.filter(add_date__range=(today_min, today_max))
+    # return render(request, "box/daily_box.html",
+    #               {"form": form, "ops": ops})
 
 
 # Workers

@@ -108,7 +108,6 @@ class DailyBoxOperation(models.Model):
     class Month(models.TextChoices):
         ADD = '1', "Add"
         TAKE = '2', "Take"
-
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE, )
     amount = models.FloatField()
     operation = models.CharField(choices=Month.choices, max_length=5)
