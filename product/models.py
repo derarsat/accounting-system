@@ -53,8 +53,8 @@ class Worker(models.Model):
 
 class Product(models.Model):
     class Weight(models.TextChoices):
-        KG = 'KG', "KG"
-        LITER = 'Liter', "Liter"
+        KG = '1', "KG"
+        LITER = '2', "Liter"
 
     name = models.CharField(max_length=100, unique=True)
     stock_price = models.FloatField()
