@@ -3,7 +3,7 @@ from django.db import models
 
 class Material(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    desc = models.CharField(max_length=1000, null=True, blank=False)
+    desc = models.CharField(max_length=200, null=True, blank=False)
 
     def __str__(self):
         return self.name
@@ -28,7 +28,7 @@ class Currency(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    desc = models.CharField(max_length=1000, null=True, blank=False, default=None)
+    desc = models.CharField(max_length=200, null=True, blank=False, default=None)
 
     def __str__(self):
         return self.name
@@ -36,8 +36,8 @@ class Category(models.Model):
 
 class Seller(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    phone = models.CharField(max_length=1000, null=True, unique=True, blank=False)
-    address = models.CharField(max_length=1000, null=True, blank=False)
+    phone = models.CharField(max_length=200, null=True, unique=True, blank=False)
+    address = models.CharField(max_length=200, null=True, blank=False)
 
     def __str__(self):
         return self.name
@@ -45,7 +45,7 @@ class Seller(models.Model):
 
 class Worker(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    phone = models.CharField(max_length=1000, null=True, unique=True, blank=False)
+    phone = models.CharField(max_length=200, null=True, unique=True, blank=False)
 
     def __str__(self):
         return self.name
