@@ -24,38 +24,9 @@
                                     <div class="col-12 col-md-6">{{ form.location|as_crispy_field }}</div>
                                     <div class="col-12 col-md-6">{{ form.identifier|as_crispy_field }}</div>
                                     <div class="col-12 col-md-6">{{ form.barcode|as_crispy_field }}</div>
+                                    <div class="col-12 col-md-6">{{ form.weight|as_crispy_field }}</div>
                                     <div class="col-12 col-md-6">
                                         {{ form.expire|as_crispy_field }}
-
-                                        {#                                        <div id="dpick">#}
-                                        {#                                            <v-app>#}
-                                        {#                                                <v-menu#}
-                                        {#                                                        v-model="menu1"#}
-                                        {#                                                        :close-on-content-click="true"#}
-                                        {#                                                        transition="scale-transition"#}
-                                        {#                                                        offset-y#}
-                                        {#                                                        max-width="290px"#}
-                                        {#                                                        min-width="auto"#}
-                                        {#                                                >#}
-                                        {#                                                    <template v-slot:activator="{ on, attrs }">#}
-                                        {#                                                        <v-text-field#}
-                                        {#                                                                name="expire"#}
-                                        {#                                                                v-model="exp"#}
-                                        {#                                                                label="Expire Date"#}
-                                        {#                                                                outlined#}
-                                        {#                                                                persistent-hint#}
-                                        {#                                                                v-bind="attrs"#}
-                                        {#                                                                v-on="on"#}
-                                        {#                                                        ></v-text-field>#}
-                                        {#                                                    </template>#}
-                                        {#                                                    <v-date-picker#}
-                                        {#                                                            v-model="exp"#}
-                                        {#                                                            no-title#}
-                                        {#                                                            @input="menu1 = false"#}
-                                        {#                                                    ></v-date-picker>#}
-                                        {#                                                </v-menu>#}
-                                        {#                                            </v-app>#}
-                                        {#                                        </div>#}
 
                                     </div>
                                     <div class="col-12 col-md-6">

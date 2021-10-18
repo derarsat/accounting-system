@@ -34,6 +34,7 @@
                     <th scope="col">Seller</th>
                     <th scope="col">Material</th>
                     <th scope="col">Quantity Type</th>
+                    <th scope="col">Weight</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Extra Quantity</th>
                     <th scope="col">Barcode</th>
@@ -63,12 +64,14 @@
 
                         </td>
                         <td scope="row">{{ product.quantity_type }}</td>
+                        <td scope="row">{{ product.weight }}</td>
                         <td scope="row">{{ product.quantity }}</td>
                         <td scope="row">{{ product.extra_quantity }}</td>
                         <td scope="row">{{ product.barcode }}</td>
                         <td scope="row">{{ product.identifier }}</td>
                         <td scope="row">{{ product.location }}</td>
-                        <td scope="row"><strong class="text-danger">{{ product.alert_if_lower_than }} </strong> {{ product.quantity_type }}
+                        <td scope="row"><strong
+                                class="text-danger">{{ product.alert_if_lower_than }} </strong> {{ product.quantity_type }}
                         </td>
                     </tr>
                 {% endfor %}
