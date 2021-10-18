@@ -11,8 +11,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from product.forms import CategoryForm, SellerForm, ProductForm, CurrencyForm, MaterialForm, QuantityTypeForm, \
-    WorkerForm, InvoicePaymentForm, DailyBoxOperationForm
+from product.forms import *
 from product.models import *
 from turbo.settings import LOGIN_URL
 
