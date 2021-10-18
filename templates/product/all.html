@@ -68,7 +68,8 @@
                         <td scope="row">{{ product.barcode }}</td>
                         <td scope="row">{{ product.identifier }}</td>
                         <td scope="row">{{ product.location }}</td>
-                        <td scope="row">{{ product.alert_if_lower_than }} {{ product.quantity_type }}</td>
+                        <td scope="row"><strong class="text-danger">{{ product.alert_if_lower_than }} </strong> {{ product.quantity_type }}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
