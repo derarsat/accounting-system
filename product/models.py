@@ -103,13 +103,13 @@ class InvoicePayment(models.Model):
     add_date = models.DateTimeField(auto_now_add=True)
     amount = models.FloatField()
 
-#
-# class DailyBoxOperation(models.Model):
-#     class Month(models.TextChoices):
-#         ADD = '1', "Add"
-#         TAKE = '2', "Take"
-#     currency = models.ForeignKey(Currency, on_delete=models.CASCADE, )
-#     amount = models.FloatField()
-#     operation = models.CharField(choices=Month.choices, max_length=5)
-#     reason = models.CharField(max_length=255, )
-#     add_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+class DailyBoxOperation(models.Model):
+    class Month(models.TextChoices):
+        ADD = '1', "Add"
+        TAKE = '2', "Take"
+    currency = models.ForeignKey(Currency, on_delete=models.CASCADE, )
+    amount = models.FloatField()
+    operation = models.CharField(choices=Month.choices, max_length=5)
+    reason = models.CharField(max_length=255, )
+    add_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
