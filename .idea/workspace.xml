@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ad947a2-1282-4cb6-92ba-07121403d0d3" name="Default" comment="..">
+      <change beforePath="$PROJECT_DIR$/product/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/product/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/add.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/product/all.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/all.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/product/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/product/edit.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -286,7 +289,7 @@
       <workItem from="1634145641032" duration="2646000" />
       <workItem from="1634285596533" duration="8596000" />
       <workItem from="1634465710447" duration="1918000" />
-      <workItem from="1634550841058" duration="7237000" />
+      <workItem from="1634550841058" duration="7576000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1632318137704</created>

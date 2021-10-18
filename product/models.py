@@ -52,6 +52,10 @@ class Worker(models.Model):
 
 
 class Product(models.Model):
+    class Weight(models.TextChoices):
+        KG = 'KG', "KG"
+        LITER = 'Liter', "Liter"
+
     name = models.CharField(max_length=100, unique=True)
     stock_price = models.FloatField()
     price = models.FloatField()
@@ -62,7 +66,7 @@ class Product(models.Model):
     material = models.ManyToManyField(Material)
     quantity_type = models.ForeignKey(QuantityType, on_delete=models.SET_NULL, null=True)
     quantity = models.FloatField()
-    weight = models.CharField()
+    weight = models.CharField(max_length=100, choices=Weight)
     extra_quantity = models.FloatField(null=True, default=0)
     barcode = models.CharField(null=True, max_length=100, blank=False, default=" ")
     identifier = models.CharField(null=True, max_length=100, blank=False)
