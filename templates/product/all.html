@@ -30,7 +30,6 @@
                     <th scope="col">Stock</th>
                     <th scope="col">Price</th>
                     <th scope="col">Special</th>
-                    <th scope="col">Special</th>
                     <th scope="col">Category</th>
                     <th scope="col">Seller</th>
                     <th scope="col">Material</th>
@@ -69,7 +68,7 @@
                         <td scope="row">{{ product.barcode }}</td>
                         <td scope="row">{{ product.identifier }}</td>
                         <td scope="row">{{ product.location }}</td>
-                        <td scope="row">{{ product.alert_if_lower_than }} {{ product.quantity_type.name }}</td>
+                        <td scope="row">{{ product.alert_if_lower_than }} {{ product.quantity_type }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
