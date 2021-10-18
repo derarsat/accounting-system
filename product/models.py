@@ -62,7 +62,7 @@ class Product(models.Model):
     special = models.FloatField()
     expire = models.DateField(null=True, blank=False)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    seller = models.ForeignKey(Seller, on_delete=models.SET_NULL, null=True)
+    seller = models.ForeignKey(Seller, on_delete=models.SET_NULL, null=True, default="1")
     material = models.ManyToManyField(Material)
     quantity_type = models.ForeignKey(QuantityType, on_delete=models.SET_NULL, null=True)
     quantity = models.FloatField()
