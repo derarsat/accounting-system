@@ -16,14 +16,14 @@
         <div class="col-12 col-md-4 mb-4">
             <div class="card">
                 <div class="card-header">
-                    Add New Material
+                    Add Active Ingredients
                 </div>
                 <div class="card-body">
                     <form method="post" action="{% url 'material.all' %}">
                         {% csrf_token %}
                         <input type="hidden" name="method" value="post">
                         {{ form|crispy }}
-                        <button type="submit" class="btn btn-success">Add Material</button>
+                        <button type="submit" class="btn btn-success">Add Active Ingredients</button>
                     </form>
                 </div>
             </div>
@@ -38,8 +38,8 @@
                     <table class="table table-responsive-md table-striped">
                         <thead>
                         <tr>
-                            <th>Material Name</th>
-                            <th>Material Description</th>
+                            <th>Active Ingredients</th>
+                            <th>Description</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -49,10 +49,10 @@
                                 <td>{{ material.name }}</td>
                                 <td>{{ material.desc }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal"
-                                            data-target="#deleteModal" data-id="{{ material.id }}">
-                                        Delete
-                                    </button>
+{#                                    <button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal"#}
+{#                                            data-target="#deleteModal" data-id="{{ material.id }}">#}
+{#                                        Delete#}
+{#                                    </button>#}
                                     <button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal"
                                             data-target="#updateModal" data-id="{{ material.id }}"
                                             data-desc="{{ material.desc }}" data-name="{{ material.name }}">
