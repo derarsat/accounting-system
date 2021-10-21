@@ -356,7 +356,7 @@ def edit_product(request, pk):
 
 @login_required(login_url=LOGIN_URL)
 def all_products(request):
-    products = Product.objects.all()
+    products = Product.objects.all().order_by("-pk")
     count = products.count()
     page = request.GET.get('page', 1)
     paginator = Paginator(products, 15)
@@ -481,3 +481,16 @@ def all_invoices(request):
 def seller_invoices(request, pk):
     invoices = Invoice.objects.filter(seller=pk)
     return render(request, "invoice/all.html", {"invoices": invoices})
+
+
+@login_required(login_url=LOGIN_URL)
+def reports_index(request):
+    total_stock = 0
+    products = Product.objects.all()
+    total_products = products.count()
+    #
+    for product in products:
+        total = ((product.quantity_type.value * product.quantity) * product.stock_price) + (
+                product.extra_quantity * product.stock_price)
+        total_stock += total
+    return render(request, "reports/index.html", {"total_products": total_products, "total_stock": total_stock})

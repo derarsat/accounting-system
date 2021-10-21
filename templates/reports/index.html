@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        .c_card {
+            background: #eee;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            text-align: center;
+            margin-right:10px
+        }
+
+        .c_card h4 {
+            margin-bottom: 40px
+        }
+    </style>
+    <div class="d-flex">
+        <div class="c_card">
+            <h4>Total Products</h4>
+            <h3>{{ total_products }}</h3>
+        </div>
+
+        <div class="c_card">
+            <h4>Total Products Stock Price</h4>
+            <h3>{{ total_stock }}$</h3>
+        </div>
+    </div>
+{% endblock %}
