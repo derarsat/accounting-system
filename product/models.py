@@ -1,5 +1,4 @@
 from django.db import models
-from model_utils import Choices
 
 
 class Material(models.Model):
@@ -55,7 +54,10 @@ class Worker(models.Model):
 
 
 class Product(models.Model):
-    STATUS = Choices('KG', 'Liter')
+    class Weight(models.TextChoices):
+        KG = '1', "KG"
+        LITER = '2', "Liter"
+
     name = models.CharField(max_length=100, unique=True)
     stock_price = models.FloatField()
     price = models.FloatField()
@@ -66,8 +68,7 @@ class Product(models.Model):
     material = models.ManyToManyField(Material)
     quantity_type = models.ForeignKey(QuantityType, on_delete=models.SET_NULL, null=True)
     quantity = models.FloatField()
-    weight = models.CharField(max_length=100, choices=STATUS, default=STATUS.KG)
-    weight_value = models.CharField(max_length=100, default="0")
+    weight = models.CharField(max_length=100, choices=Weight,default="1")
     extra_quantity = models.FloatField(null=True, default=0)
     barcode = models.CharField(null=True, max_length=100, blank=False, default=" ")
     identifier = models.CharField(null=True, max_length=100, blank=False)
