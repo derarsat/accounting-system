@@ -28,8 +28,10 @@ class Currency(models.Model):
 
 
 class Category(models.Model):
+    STATUS = Choices('Super', 'Regular')
     name = models.CharField(max_length=100, unique=True)
     desc = models.CharField(max_length=200, null=True, blank=False, default=None)
+    type = models.CharField(max_length=100, choices=STATUS, default=STATUS.Regular)
 
     def __str__(self):
         return self.name

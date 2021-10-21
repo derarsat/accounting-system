@@ -12,6 +12,13 @@
             </div>
         {% endfor %}
     {% endif %}
+
+    <div class="container">
+    <div class="row">
+        <h2 class="mb-4">All Products ({{ products|length }})</h2>
+
+    </div>
+    </div>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span>
@@ -64,7 +71,7 @@
 
                         </td>
                         <td scope="row">{{ product.quantity_type }}</td>
-                        <td scope="row">{{ product.weight }}</td>
+                        <td scope="row">{{ product.weight }}{{ product.weight_value }}</td>
                         <td scope="row">{{ product.quantity }}</td>
                         <td scope="row">{{ product.extra_quantity }}</td>
                         <td scope="row">{{ product.barcode }}</td>
